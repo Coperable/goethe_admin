@@ -35,7 +35,7 @@ angular.module('app.competitions')
     $scope.submitForm = function() {
         if($scope.torneo.id) {
             $scope.torneo.$update(function() {
-                logger.logSuccess("El torneo fue actualizado con éxito!"); 
+                logger.logSuccess("La actividad fue actualizada con éxito!"); 
                 $state.go('competition-view', {
                     competitionId: $scope.torneo.id
                 }); 
@@ -44,7 +44,7 @@ angular.module('app.competitions')
             });
         } else {
             $scope.torneo.$save(function() {
-                logger.logSuccess("El torneo fue creado con éxito!"); 
+                logger.logSuccess("La actividad fue creada con éxito!"); 
                 $state.go('competition-view', {
                     competitionId: $scope.torneo.id
                 }); 
