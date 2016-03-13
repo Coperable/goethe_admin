@@ -3,7 +3,7 @@
     <div class="row ui-section">
         <div class="col-lg-8 clearfix">
             <h2 class="section-header">Oradores</h2>
-            <a href="#/slam/participants/edit" class="btn btn-primary pull-right">Crear</a>
+            <a ng-href="#/participant-new" class="btn btn-primary pull-right">Crear</a>
         </div>
         <div class="col-md-12">
             <section class="panel panel-default table-dynamic">
@@ -25,7 +25,7 @@
                         <tr data-ng-repeat="participant in participants">
                             <td>{{participant.username}}</td>
                             <td>{{participant.name}} {{participant.lastname}}</td>
-                            <td><span class="btn btn-primary" ng-click="view(participant.id)">Ver</span></td>
+                            <td><!--span class="btn btn-primary" ng-click="view(participant.id)">Ver</span--></td>
                             <td><span class="btn btn-default" ng-click="edit(participant.id)">Editar</span></td>
                         </tr>
                     </tbody>

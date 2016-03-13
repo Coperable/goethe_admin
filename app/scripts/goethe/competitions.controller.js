@@ -127,7 +127,7 @@ angular.module('app.competitions')
     };
 
 }])
-.controller('competition-view', ['$scope', '$window', 'Competition', '$location', '$state', '$stateParams', function($scope, $window, Competition, $location, $state, $stateParams) {
+.controller('competition-view', ['$scope', '$window', 'Competition', '$location', '$state', '$stateParams', '$http',  function($scope, $window, Competition, $location, $state, $stateParams, $http) {
     $scope.competition = {};
 
     $scope.show_participants = true;
@@ -183,7 +183,12 @@ angular.module('app.competitions')
 
 
 }])
-.controller('competition-participants', ['$scope', '$state', function($scope, $state) {
+.controller('competition-participants', ['$scope', '$state', '$http', 'logger', 'Participant', 'api_host', function($scope, $state, $http, logger, Participant, api_host) {
+    $scope.adding = false;
+
+    $scope.candidates = [];
+
+
     $scope.viewParticipant = function(id) {
         console.log('view '+id);
         $state.go('participant-view', {
@@ -191,8 +196,31 @@ angular.module('app.competitions')
         }); 
     };
 
-    $scope.addParticipant = function() {
+    $scope.assign = function(candidate) {
+        $http.post(api_host+'/api/competition/'+$scope.competition.id+'/assign/'+candidate.id, {}).success(function(medias) {
+            $scope.$parent.fetchCompetition();
+            $scope.adding = false;
 
+        });
+
+    };
+
+    $scope.addParticipant = function() {
+        console.dir($scope.participants);
+        var already_exist = _.pluck($scope.participants, 'id');
+        console.dir(already_exist);
+        
+        Participant.query(function(data) {
+            $scope.candidates = _.filter(data, function(item) {
+                return !_.contains(already_exist, item.id);
+            });
+
+            $scope.adding = true;
+        });
+    };
+
+    $scope.cancelAdding = function() {
+        $scope.adding = false;
     };
 
 }])
