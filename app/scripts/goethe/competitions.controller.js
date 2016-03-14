@@ -109,6 +109,17 @@ angular.module('app.competitions')
     */
 
 
+        $scope.remove = function() {
+            if($scope.torneo.id) {
+                $scope.torneo.$remove(function() {
+                    logger.logSuccess("La actividad fue eliminada!"); 
+                    $location.url('/goethe/regions/list');
+                }).catch(function(response) {
+                    logger.logError(response.message); 
+                });
+            }
+        };
+
 
 }])
 .controller('competitions-list', ['$scope', '$http', '$state', 'api_host', 'Competition', function($scope, $http, $state, api_host, Competition) {

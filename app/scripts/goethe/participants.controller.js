@@ -86,6 +86,19 @@
             $scope.participant.photo = response.data.filename;
         };
 
+        $scope.remove = function() {
+            if($scope.participant.id) {
+                $scope.participant.$remove(function() {
+                    logger.logSuccess("El orador fue eliminado!"); 
+                    $location.url('/goethe/participants/list');
+                }).catch(function(response) {
+                    logger.logError(response.message); 
+                });
+            }
+        };
+
+
+
 
     }
 

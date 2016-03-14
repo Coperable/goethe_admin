@@ -100,6 +100,26 @@
                                 ui-wave
                                 data-ng-click="revert()"
                         >Cancelar</button>
+
+                        <span
+                            ng-if="torneo.id"
+                          class="btn btn-danger btn-w-md pull-right"
+                          mwl-confirm
+                          ui-wave
+                          title="Atención!"
+                          message="Desea eliminar la actividad?"
+                          confirm-text="Confirmar"
+                          cancel-text="Cancelar"
+                          placement="top"
+                          on-confirm="remove()"
+                          on-cancel="cancelClicked = true"
+                          confirm-button-type="danger"
+                          cancel-button-type="default">
+                            Eliminar
+                        </span>
+
+
+
                     </form>
                 </div>
             </div>
