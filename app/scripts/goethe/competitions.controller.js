@@ -70,12 +70,13 @@ angular.module('app.competitions')
 
         jQuery('#torneo_event_date').bootstrapMaterialDatePicker({  
             format : 'DD MM YYYY HH:mm',  
-            minDate : moment().subtract(3, 'years'), 
-            currentDate: moment($scope.torneo.event_date),
+            minDate : new Date(), 
+            currentDate: $scope.torneo.event_date,
             lang: 'es'  
         }).on('change', function(e, date) { 
             $scope.torneo.event_date = date; 
         }); 
+
 
     };
 

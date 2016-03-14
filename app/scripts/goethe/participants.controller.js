@@ -42,7 +42,7 @@
 
 
         $scope.canSubmit = function() {
-            return $scope.participant_form.$valid;
+            return true;
         };
 
         $scope.revert = function() {
