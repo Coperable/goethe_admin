@@ -12,12 +12,27 @@
                     <form name="torneo_form" class="form-validation" novalidate data-ng-submit="submitForm()">
                         <div class="form-group">
                             <label for="">Título</label>
-                            <input  type="text" class="form-control" required data-ng-model="torneo.title" >
+                            <input  type="text" class="form-control" placeholder="Título" required data-ng-model="torneo.title" >
+                            <input  type="text" class="form-control" placeholder="ENGLISH" required data-ng-model="torneo.title_en" >
+                            <input  type="text" class="form-control" placeholder="DEUTSCH" required data-ng-model="torneo.title_de" >
                         </div>
                         <div class="form-group">
                             <label for="">Descripción</label>
                             <textarea class="form-control" rows="10" data-ng-model="torneo.description"></textarea>
+                            <textarea class="form-control" rows="10" placeholder="ENGLISH" data-ng-model="torneo.description_en"></textarea>
+                            <textarea class="form-control" rows="10" placeholder="DEUTSCH" data-ng-model="torneo.description_de"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="">Tipo</label>
+                            <select class="form-control" data-ng-model="torneo.type">
+                                <option value="Taller">Talleres</option>
+                                <option value="Cine">Cines</option>
+                                <option value="Reuniones">Reuniones</option>
+                                <option value="Charlas">Charlas</option>
+                                <option value="Conferencias">Conferencias</option>
+                            </select>
+                        </div>
+
 
                         <div class="form-group">
                             <div class="btn btn-primary btn-upload" upload-button 
@@ -67,6 +82,8 @@
                         <div class="form-group">
                             <label for="">Detalles</label>
                             <textarea class="form-control" rows="10" data-ng-model="torneo.rules"></textarea>
+                            <textarea class="form-control" rows="10" placeholder="ENGLISH" data-ng-model="torneo.rules_en"></textarea>
+                            <textarea class="form-control" rows="10" placeholder="DEUTSCH" data-ng-model="torneo.rules_de"></textarea>
                         </div>
 
                         <div class="form-group">

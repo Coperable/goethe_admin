@@ -13,5 +13,6 @@
         <li ng-if="hasRole('crud_user')" ui-wave><a href="#/goethe/participants/list"> <i class="imd imd-contacts"></i><span data-translate="Oradores"></span> </a></li>
         <li ui-wave ng-repeat="region in account.regions"><a ng-click="viewRegion(region.id)"> <i class="imd imd-place"></i><span> {{region.name}}</span> </a></li>
         <li ng-if="hasRole('edit_site')" ui-wave><a href="#/goethe/sliders/list"> <i class="imd imd-contacts"></i><span data-translate="Sliders"></span> </a></li>
+        <li ng-if="hasRole('crud_user')" ui-wave><a href="#/goethe/translation/list"> <i class="imd imd-spellcheck"></i><span data-translate="Traducciones"></span> </a></li>
     </ul>
 </div>
