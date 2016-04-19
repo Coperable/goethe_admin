@@ -35,6 +35,7 @@
         ,'app.sliders'
         ,'app.participants'
         ,'app.competitions'
+        ,'app.translations'
     ]);
 
 })();

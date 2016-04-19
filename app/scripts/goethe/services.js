@@ -205,6 +205,20 @@ angular.module('app.services', [])
         }
     });
 }])
+.factory('Translation',['$resource', 'api_host', function($resource, api_host){
+    return $resource(api_host+'/api/translations/:id', { id:'@id' }, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('Language',['$resource', 'api_host', function($resource, api_host){
+    return $resource(api_host+'/api/parametric/languages/:id', { id:'@id' }, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .filter('moment', function() {
     return function(dateString, format) {
         return moment(dateString).format(format);

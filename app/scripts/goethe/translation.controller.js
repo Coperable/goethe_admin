@@ -1,55 +1,33 @@
 (function () {
 'use strict';
 
-angular.module('app.sliders')
-.controller('slider-edit', ['$scope', '$window', '$location', '$state', '$stateParams', '$timeout', 'api_host', 'logger', 'Slider', function($scope, $window, $location, $state, $stateParams, $timeout, api_host, logger, Slider) {
+angular.module('app.translations')
+.controller('translation-edit', ['$scope', '$window', '$location', '$state', '$stateParams', '$timeout', 'api_host', 'logger', 'Translation', 'Language', function($scope, $window, $location, $state, $stateParams, $timeout, api_host, logger, Translation, Language) {
 
-    $scope.format = 'dd/MM/yyyy';
-    $scope.events = [ ];
+    $scope.languages = [];
 
-    $scope.today = function() {
-        $scope.event_date = new Date();
-    };
+    $scope.translation = {};
 
-    $scope.clear = function () {
-        $scope.event_date = null;
-    };
+    Language.query(function(data) {
+        $scope.languages = data;
+    });
 
-    $scope.disabled = function(date, mode) {
-        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-    };
-
-    $scope.toggleMin = function() {
-        $scope.minDate = $scope.minDate ? null : new Date();
-    };
-
-    $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
-    };
-
-    $scope.open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        $scope.opened = true;
-    };
-
-
-    $scope.slider = {};
-
-    if($stateParams.sliderId) {
-        Slider.get({
-            id: $stateParams.sliderId
+    $scope.languages_code = ['es_ES', 'en_EN', 'de_DE'];
+    if($stateParams.translationId) {
+        Translation.get({
+            id: $stateParams.translationId
         }, function(data) {
-            $scope.slider = data;
-            $scope.event_date = moment($scope.slider.event_date);
+            $scope.translation = data;
+            _.each(data.entries, function(item) {
+                $scope.translation[$scope.languages_code[item.language_id - 1]] = item.text
+            });
             $scope.setup_component();
         });
 
     } else {
-        $scope.slider = new Slider({
-            region_id: $stateParams.regionId
+        $scope.translation = new Translation({
+            type: 'WEB',
+            module: 'goethe'
         });
         $timeout(function() {
             $scope.setup_component();
@@ -59,25 +37,25 @@ angular.module('app.sliders')
 
 
     $scope.canSubmit = function() {
-        return $scope.slider_form.$valid;
+        return $scope.translation_form.$valid;
     };
 
     $scope.revert = function() {
-        $scope.slider = new Slider({});
+        $scope.translation = new Translation({});
     };
 
     $scope.submitForm = function() {
-        if($scope.slider.id) {
-            $scope.slider.$update(function() {
-                logger.logSuccess("El slider fue actualizado con éxito!"); 
-                $state.go('slider-list'); 
+        if($scope.translation.id) {
+            $scope.translation.$update(function() {
+                logger.logSuccess("La traducción fue actualizada con éxito!"); 
+                $state.go('translation-list'); 
             }).catch(function(response) {
                 logger.logError(response.message); 
             });
         } else {
-            $scope.slider.$save(function() {
-                logger.logSuccess("El slider fue creado con éxito!"); 
-                $state.go('slider-list'); 
+            $scope.translation.$save(function() {
+                logger.logSuccess("La traducción fue creada con éxito!"); 
+                $state.go('translation-list'); 
             }).catch(function(response) {
                 logger.logError(response.message); 
             });
@@ -86,57 +64,28 @@ angular.module('app.sliders')
 
     };
     $scope.setup_component = function () {
-        $scope.today();
-        $('#slider_event_date').bootstrapMaterialDatePicker({  
-            format : 'DD MM YYYY HH:mm',  
-            minDate : new Date(), 
-            currentDate: $scope.event_date,
-            lang: 'es'  
-        }).on('change', function(e, date) { 
-            $scope.slider.event_date = date; 
-        }); 
-
     };
 
-
-
-    $scope.upload_url = api_host+"/api/media/slider/upload";
-    $scope.uploading = false;
-
-    $scope.onUpload = function(response) {
-        $scope.uploading = true;
-    };
-
-    $scope.onError = function(response) {
-        $scope.uploading = false;
-        console.log('error');
-    };
-
-    $scope.onComplete = function(response) {
-        $scope.uploading = false;
-        $scope.slider.cover_photo = response.data.filename;
-    };
 
 
 }])
-.controller('sliders-list', ['$scope', '$http', '$state', 'logger', 'api_host', 'Slider', function($scope, $http, $state, logger, api_host, Slider) {
+.controller('translation-list', ['$scope', '$http', '$state', 'logger', 'api_host', 'Translation', function($scope, $http, $state, logger, api_host, Translation) {
    
-    Slider.query(function(data) {
-        $scope.sliders = data;
+    Translation.query(function(data) {
+        $scope.translations = data;
     });
 
     $scope.view = function(id) {
-        console.log('view '+id);
-        $state.go('slider-view', {
-            sliderId: id
+        $state.go('translation-view', {
+            translationId: id
         }); 
     };
 
-    $scope.remove = function(slider_data) {
-        var slider = new Slider(slider_data);
-        slider.$remove(function() {
-            logger.logSuccess("El slider fue eliminado con éxito!"); 
-            $state.go('slider-list', {}, {reload: true}); 
+    $scope.remove = function(translation_data) {
+        var translation = new Translation(translation_data);
+        translation.$remove(function() {
+            logger.logSuccess("El translation fue eliminado con éxito!"); 
+            $state.go('translation-list', {}, {reload: true}); 
         }).catch(function(response) {
             logger.logError(response.message); 
         });
@@ -145,8 +94,8 @@ angular.module('app.sliders')
     };
 
     $scope.edit = function(id) {
-        $state.go('slider-edit', {
-            sliderId: id
+        $state.go('translation-edit', {
+            translationId: id
         }); 
     };
 

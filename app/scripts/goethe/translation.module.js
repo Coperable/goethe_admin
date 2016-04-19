@@ -1,5 +1,5 @@
 (function () {
     'use strict';
-    angular.module('app.sliders', []);
+    angular.module('app.translations', []);
 })(); 
 

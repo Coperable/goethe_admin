@@ -9,6 +9,7 @@
             routes = [
                 'goethe/regions/list',
                 'goethe/sliders/list',
+                'goethe/translation/list',
                 'goethe/users/list',
                 'goethe/participants/list',
                 'goethe/users/edit'
@@ -88,6 +89,27 @@
             .state('region-edit', {
                 url: '/region-edit/:regionId',
                 templateUrl: 'views/goethe/regions/edit.html',
+                resolve: {
+                    loginRequired: loginRequired
+                }
+            })
+            .state('translation-list', {
+                url: '/translation-list',
+                templateUrl: 'views/goethe/translation/list.html',
+                resolve: {
+                    loginRequired: loginRequired
+                }
+            })
+            .state('translation-new', {
+                url: '/translation-new',
+                templateUrl: 'views/goethe/translation/edit.html',
+                resolve: {
+                    loginRequired: loginRequired
+                }
+            })
+            .state('translation-edit', {
+                url: '/translation-edit/:translationId',
+                templateUrl: 'views/goethe/translation/edit.html',
                 resolve: {
                     loginRequired: loginRequired
                 }
